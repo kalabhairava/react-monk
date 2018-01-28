@@ -88,3 +88,4 @@ console.log("After dispatching decrement action:", store.getState()); // 0
 
 // Look at the original implementation here => https://github.com/tayiorbeii/egghead.io_redux_course_notes/blob/master/03-Implementing_Store_from_Scratch.md
 // I totally missed setting up the listeners array part in first go. Don't do that mistake.
+
