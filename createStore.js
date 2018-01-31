@@ -7,11 +7,12 @@
  */
 
 /**
- * createStore function exposes 3 important methods that correspond to the principles of redux
+ * createStore function exposes 4 important methods that correspond to the principles of redux
  *
  * 1. getState() => returns the existing state of the application
  * 2. dispatch(action) => call the reducer with the existing state, and action. Update the state of the store with the new updated state returned by the reducer.
- * 4. subscribe(callback) => call the callback function that updates the UI whenever the state is updated.
+ * 3. subscribe(callback) => call the callback function that updates the UI whenever the state is updated.
+ * 4. replaceReducer(new_reducer) => replace the existing reducer with new_reducer
  *
  * @param {*} reducer The reducer function
  *
@@ -21,11 +22,12 @@
 function createStore(reducer) {
   let _state = 0;
   let listeners = [];
+  let currentReducer = reducer;
 
   const getState = () => _state;
 
   const dispatch = action => {
-    _state = reducer(_state, action);
+    _state = currentReducer(_state, action);
 
     // notify all the listeners
     for (listener of listeners) {
@@ -40,11 +42,14 @@ function createStore(reducer) {
     const unsubscribe = () => listeners.filter(item => item !== listener);
     return unsubscribe;
   };
+  
+  const replaceReducer = newReducer => currentReducer = newReducer;
 
   return {
     getState,
     dispatch,
-    subscribe
+    subscribe,
+    replaceReducer
   };
 }
 
